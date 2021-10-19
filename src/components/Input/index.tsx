@@ -3,7 +3,7 @@ import {View, TextInput} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const Input = props => {
+const Input = (props: {iconName: String}) => {
   return (
     <View style={styles.mainView}>
       <View style={styles.iconView}>

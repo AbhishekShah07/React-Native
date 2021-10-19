@@ -3,7 +3,15 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 
-const SocialMediaButton = ({color, iconName, title}) => {
+const SocialMediaButton = ({
+  color,
+  iconName,
+  title,
+}: {
+  color: String;
+  iconName: String;
+  title: String;
+}) => {
   return (
     <TouchableOpacity style={{...styles.buttonContainer, borderColor: color}}>
       <View style={{...styles.iconView, borderRightColor: color}}>

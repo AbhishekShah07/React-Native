@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen name="Splash" component={Splash} /> */}
+      <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={Signup} />
       <Stack.Screen name="Home" component={Home} />

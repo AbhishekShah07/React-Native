@@ -1,11 +1,27 @@
-import React from 'react';
-import {ScrollView, Image, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {ScrollView, Image, Text} from 'react-native';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import SocialMediaButton from '../../components/SocialMediaButton';
 import styles from './styles';
+import auth from '@react-native-firebase/auth';
 
 const Login = ({navigation}) => {
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+  const onSubmit = () => {
+    // console.log(user);
+    auth()
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then(userData => {
+        console.log(userData, 'Login Successful!');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   return (
     <ScrollView contentContainerStyle={styles.mainView}>
       <Image
@@ -16,12 +32,19 @@ const Login = ({navigation}) => {
       <Input
         iconName="user"
         keyboardType="email-address"
-        type="text"
         placeholder="Email"
         autoCapitalize="none"
+        onChangeText={(e: string) => setUser({...user, email: e})}
+        value={user.email}
       />
-      <Input iconName="lock" secureTextEntry={true} placeholder="Password" />
-      <Button title="Login" />
+      <Input
+        iconName="lock"
+        secureTextEntry={true}
+        placeholder="Password"
+        onChangeText={(e: string) => setUser({...user, password: e})}
+        value={user.password}
+      />
+      <Button title="Login" onPress={onSubmit} />
       <Text style={styles.forgotText}>Forgot Password?</Text>
       <SocialMediaButton
         iconName="facebook"

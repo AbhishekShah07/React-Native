@@ -14,7 +14,12 @@ const Input = (props: {iconName: String}) => {
           color="#666"
         />
       </View>
-      <TextInput style={styles.textInput} {...props} />
+      <TextInput
+        autoCorrect={false}
+        autoComplete="off"
+        style={styles.textInput}
+        {...props}
+      />
     </View>
   );
 };

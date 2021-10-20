@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   mainView: {
+    marginTop: 50,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

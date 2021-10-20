@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 const Splash = ({navigation}) => {
   function onAuthStateChanged(userData: object) {
     if (userData) {
-      navigation.reset({index: 0, routes: [{name: 'Home'}]});
+      navigation.reset({index: 0, routes: [{name: 'Tab'}]});
     } else {
       navigation.reset({index: 0, routes: [{name: 'Login'}]});
     }

@@ -3,17 +3,26 @@ import {View, TextInput} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const Input = (props: {iconName: String}) => {
+interface Props {
+  iconName?: String;
+  placeholder: String;
+  onChangeText: Function;
+  value: String;
+}
+
+const Input = (props: Props) => {
   return (
     <View style={styles.mainView}>
-      <View style={styles.iconView}>
-        <Icon
-          style={styles.icon}
-          name={props.iconName}
-          size={25}
-          color="#666"
-        />
-      </View>
+      {props.iconName && (
+        <View style={styles.iconView}>
+          <Icon
+            style={styles.icon}
+            name={props.iconName}
+            size={25}
+            color="#666"
+          />
+        </View>
+      )}
       <TextInput
         autoCorrect={false}
         autoComplete="off"

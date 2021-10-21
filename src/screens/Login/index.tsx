@@ -4,23 +4,41 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import SocialMediaButton from '../../components/SocialMediaButton';
 import styles from './styles';
-import auth from '@react-native-firebase/auth';
+import {rootStore} from '../../mst';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 const Login = ({navigation}) => {
+  const rootData = rootStore();
   const [user, setUser] = useState({
-    email: '',
-    password: '',
+    email: 'abhishek@gmail.com',
+    password: 'Svit@7198',
   });
   const onSubmit = () => {
-    // console.log(user);
-    auth()
-      .signInWithEmailAndPassword(user.email, user.password)
-      .then(userData => {
-        console.log(userData, 'Login Successful!');
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    rootData.fetchUser(user.email, user.password);
+  };
+  GoogleSignin.configure({
+    scopes: ['https://www.googleapis.com/auth/drive.readonly'], // [Android] what API you want to access on behalf of the user, default is email and profile
+    webClientId:
+      '30123844710-ok4ibefac24gu5mokib5t45ttf7cbgpc.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    hostedDomain: '', // specifies a hosted domain restriction
+    forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+    accountName: '', // [Android] specifies an account name on the device that should be used
+    googleServicePlistPath: '', // [iOS] if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
+    openIdRealm: '', // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
+    profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
+  });
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+    } catch (error) {
+      console.log('some error', error);
+    }
   };
   return (
     <ScrollView contentContainerStyle={styles.mainView}>
@@ -55,6 +73,7 @@ const Login = ({navigation}) => {
         iconName="google"
         color="#de4d41"
         title="Login with Google"
+        onPress={signIn}
       />
       <Text
         onPress={() => navigation.navigate('SignUp')}

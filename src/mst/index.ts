@@ -1,4 +1,4 @@
-import {types, Instance} from 'mobx-state-tree';
+import {types, Instance, onSnapshot} from 'mobx-state-tree';
 import {fetchAllBooks, fetchUserData} from '../utils';
 
 const BookStore = types.model('Book', {
@@ -24,7 +24,12 @@ const RootStore = types
       books: Array<{name: String; author: String; price: Number}>;
     }) => ({
       setUser(user: {id: String; email: String; name: String}) {
-        store.user = {...user};
+        console.log(user);
+        store.user = {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        };
       },
       async fetchUser(email: String, password: String) {
         const userData = await fetchUserData(email, password);
@@ -39,9 +44,9 @@ const RootStore = types
       },
     }),
   );
-let rootData;
+
 export const rootStore = () => {
-  rootData = RootStore.create({
+  const rootTree = RootStore.create({
     user: {
       id: '',
       email: '',
@@ -49,7 +54,8 @@ export const rootStore = () => {
     },
     books: [],
   });
-  return rootData;
+  onSnapshot(rootTree, snapshot => console.log('snapshot: ', snapshot));
+  return {rootTree};
 };
 
 export {RootStore};

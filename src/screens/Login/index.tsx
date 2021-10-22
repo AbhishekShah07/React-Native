@@ -10,13 +10,13 @@ import {useNavigation} from '@react-navigation/native';
 
 const Login = () => {
   const navigation = useNavigation();
-  const rootData = rootStore();
+  const {rootTree} = rootStore();
   const [user, setUser] = useState({
     email: 'abhishek@gmail.com',
     password: 'Svit@7198',
   });
   const onSubmit = () => {
-    rootData.fetchUser(user.email, user.password);
+    rootTree.fetchUser(user.email, user.password);
   };
   GoogleSignin.configure({
     scopes: ['https://www.googleapis.com/auth/drive.readonly'], // [Android] what API you want to access on behalf of the user, default is email and profile
@@ -33,8 +33,8 @@ const Login = () => {
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      await GoogleSignin.signIn();
+      navigation.reset({index: 0, routes: [{name: 'Tab'}]});
     } catch (error) {
       console.log('some error', error);
     }

@@ -7,7 +7,7 @@ interface Props {
   iconName?: String;
   placeholder: String;
   onChangeText: Function;
-  value: String;
+  value: String | Number;
   keyboardType?: String;
   autoCapitalize?: String;
   secureTextEntry?: Boolean;

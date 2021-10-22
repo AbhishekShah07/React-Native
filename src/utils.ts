@@ -12,7 +12,7 @@ export const fetchAllBooks = async () => {
   });
 };
 
-export const fetchUserData = async (email, password) => {
+export const fetchUserData = async (email: string, password: string) => {
   let userData;
   const user = await auth().signInWithEmailAndPassword(email, password);
   const querySnapshot = await firestore()
@@ -27,4 +27,16 @@ export const fetchUserData = async (email, password) => {
     };
   });
   return userData;
+};
+
+export const addBookData = async (
+  bookName: string,
+  authorName: string,
+  price: number,
+  email: string,
+) => {
+  await firestore()
+    .collection('books')
+    .doc()
+    .set({name: bookName, author: authorName, price, addedBy: email});
 };

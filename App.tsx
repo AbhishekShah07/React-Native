@@ -4,8 +4,12 @@ import {Provider} from 'mobx-react';
 import Navigation from './src/navigation';
 
 const App = () => {
+  const {rootTree} = rootStore();
+  if (!rootTree) {
+    return null;
+  }
   return (
-    <Provider rootTree={rootStore}>
+    <Provider rootTree={rootTree}>
       <Navigation />
     </Provider>
   );

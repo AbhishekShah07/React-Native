@@ -3,9 +3,11 @@ import {View} from 'react-native';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import styles from './styles';
+import {rootStore} from '../../mst';
 
 const AddBook = () => {
-  const [book, setBook] = useState({name: '', author: '', price: ''});
+  const rootData = rootStore();
+  const [book, setBook] = useState({name: '', author: '', price: 0});
   return (
     <View style={styles.mainView}>
       <Input
@@ -20,10 +22,13 @@ const AddBook = () => {
       />
       <Input
         placeholder="Price"
-        onChangeText={(e: string) => setBook({...book, price: e})}
+        onChangeText={(e: number) => setBook({...book, price: e})}
         value={book.price}
       />
-      <Button onPress={() => console.log('add')} title="Add" />
+      <Button
+        onPress={() => rootData.addBook(book.name, book.author, book.price)}
+        title="Add"
+      />
     </View>
   );
 };

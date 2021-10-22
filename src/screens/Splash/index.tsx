@@ -2,8 +2,10 @@ import React, {useEffect} from 'react';
 import {View, Image, Text} from 'react-native';
 import styles from './styles';
 import auth from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
 
-const Splash = ({navigation}) => {
+const Splash = () => {
+  const navigation = useNavigation();
   function onAuthStateChanged(userData: object) {
     if (userData) {
       navigation.reset({index: 0, routes: [{name: 'Tab'}]});

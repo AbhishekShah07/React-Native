@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: '#2e64e5',
   },
   bookView: {
     display: 'flex',
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 0.2,
+    borderColor: '#2e64e5',
   },
   bookText: {
     fontSize: 18,
@@ -23,12 +25,14 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   updateButton: {
-    flex: 1,
+    width: 30,
+    height: 30,
+    marginLeft: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2e64e5',
-    padding: 10,
+    borderColor: '#2e64e5',
     borderRadius: 10,
+    borderWidth: 1,
   },
   updateText: {color: '#ffffff'},
   priceView: {

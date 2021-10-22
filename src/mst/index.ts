@@ -1,5 +1,10 @@
-import {types, Instance, onSnapshot} from 'mobx-state-tree';
-import {fetchAllBooks, fetchUserData} from '../utils';
+import {types, Instance, onSnapshot, applySnapshot} from 'mobx-state-tree';
+import {
+  fetchAllBooks,
+  fetchUserData,
+  fetchMyAllBooks,
+  createNewBook,
+} from '../utils';
 
 const BookStore = types.model('Book', {
   name: types.string,
@@ -17,33 +22,32 @@ const RootStore = types
   .model('Root', {
     user: UserStore,
     books: types.array(BookStore),
+    myBooks: types.array(BookStore),
   })
-  .actions(
-    (store: {
-      user: {id: String; email: String; name: String};
-      books: Array<{name: String; author: String; price: Number}>;
-    }) => ({
-      setUser(user: {id: String; email: String; name: String}) {
-        console.log(user);
-        store.user = {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        };
-      },
-      async fetchUser(email: String, password: String) {
-        const userData = await fetchUserData(email, password);
-        store.setUser(userData);
-      },
-      setAllBooks(allBooks: any) {
-        store.books = [...allBooks];
-      },
-      async fetchBooks() {
-        const allBooks = await fetchAllBooks();
-        store.setAllBooks(allBooks);
-      },
-    }),
-  );
+  .actions(store => {
+    function staticUserData() {
+      applySnapshot(store, {...store, user: {...store.user, name: 'abhi'}});
+    }
+    async function fetchUser(email: String, password: String) {
+      const userData = await fetchUserData(email, password);
+      applySnapshot(store, {
+        ...store,
+        user: {id: userData.id, name: userData.name, email: userData.email},
+      });
+    }
+    async function fetchBooks() {
+      const allBooks = await fetchAllBooks();
+      applySnapshot(store, {...store, books: [...allBooks]});
+    }
+    async function fetchMyBooks() {
+      const myBooks = await fetchMyAllBooks();
+      applySnapshot(store, {...store, myBooks: [...myBooks]});
+    }
+    async function addBook(name, author, price) {
+      await createNewBook(name, author, price);
+    }
+    return {staticUserData, fetchUser, fetchBooks, fetchMyBooks, addBook};
+  });
 
 export const rootStore = () => {
   const rootTree = RootStore.create({
@@ -53,6 +57,7 @@ export const rootStore = () => {
       name: '',
     },
     books: [],
+    myBooks: [],
   });
   onSnapshot(rootTree, snapshot => console.log('snapshot: ', snapshot));
   return {rootTree};

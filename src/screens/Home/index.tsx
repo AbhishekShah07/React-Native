@@ -1,36 +1,23 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import {rootStore} from '../../mst';
+import React, {useEffect} from 'react';
+import {Text} from 'react-native';
 import List from '../../components/List';
 import {inject, observer} from 'mobx-react';
+import {ScrollView} from 'react-native-gesture-handler';
 
-@inject('rootTree')
-@observer
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rootTree: null,
-    };
-  }
-  componentDidMount() {
-    const {rootTree} = rootStore();
-    this.setState({
-      rootTree,
-    });
-    rootTree.fetchBooks();
-  }
-  render() {
-    const {rootTree} = this.state;
+const Home = inject('rootTree')(
+  observer(props => {
+    useEffect(() => {
+      props.rootTree.fetchBooks();
+    }, []);
+    const {rootTree} = props;
     if (!rootTree) return null;
-
     return (
-      <View>
+      <ScrollView>
         <Text>{rootTree.user.name}</Text>
-        <List data={rootTree.books} />
-      </View>
+        <List addedByMe={false} data={rootTree.books} />
+      </ScrollView>
     );
-  }
-}
+  }),
+);
 
 export default Home;

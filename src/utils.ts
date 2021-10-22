@@ -12,6 +12,20 @@ export const fetchAllBooks = async () => {
   });
 };
 
+export const fetchMyAllBooks = async () => {
+  const myBooks = await firestore()
+    .collection('books')
+    .where('addedBy', '==', 'abhishek@gmail.com')
+    .get();
+  return myBooks.docs.map(item => {
+    return {
+      name: item.data().name,
+      author: item.data().author,
+      price: item.data().price,
+    };
+  });
+};
+
 export const fetchUserData = async (email: string, password: string) => {
   let userData;
   const user = await auth().signInWithEmailAndPassword(email, password);
@@ -29,14 +43,18 @@ export const fetchUserData = async (email: string, password: string) => {
   return userData;
 };
 
-export const addBookData = async (
+export const createNewBook = async (
   bookName: string,
   authorName: string,
   price: number,
-  email: string,
 ) => {
   await firestore()
     .collection('books')
     .doc()
-    .set({name: bookName, author: authorName, price, addedBy: email});
+    .set({
+      name: bookName,
+      author: authorName,
+      price: parseInt(price),
+      addedBy: 'abhishek@gmail.com',
+    });
 };

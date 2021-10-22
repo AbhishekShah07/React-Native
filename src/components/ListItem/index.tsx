@@ -1,15 +1,23 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
+import Icon from 'react-native-vector-icons/AntDesign';
 
-const ListItem = ({data}) => {
+const ListItem = ({data, showUpdate}) => {
   return (
     <View style={styles.mainView}>
       <View style={styles.bookView}>
         <Text style={styles.bookText}>{data.name}</Text>
-        <TouchableOpacity style={styles.updateButton}>
-          <Text style={styles.updateText}>Update</Text>
-        </TouchableOpacity>
+        {showUpdate && (
+          <>
+            <TouchableOpacity style={styles.updateButton}>
+              <Icon name="edit" size={20} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.updateButton}>
+              <Icon name="delete" size={20} />
+            </TouchableOpacity>
+          </>
+        )}
       </View>
       <View style={styles.priceView}>
         <Text style={styles.subText}>

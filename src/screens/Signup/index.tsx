@@ -6,8 +6,10 @@ import styles from './styles';
 import SocialMediaButton from '../../components/SocialMediaButton';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
 
-const Signup = ({navigation}) => {
+const Signup = () => {
+  const navigation = useNavigation();
   const [user, setUser] = useState({
     email: 'abhishek@gmail.com',
     password: 'Svit@7198',
@@ -21,7 +23,7 @@ const Signup = ({navigation}) => {
           console.log(userData);
           const userCreation = await firestore()
             .collection('users')
-            .doc(userData.user._user.uid)
+            .doc(userData.user.uid)
             .set({
               name: user.name,
               email: user.email,
@@ -48,7 +50,7 @@ const Signup = ({navigation}) => {
       <Input
         iconName="adduser"
         placeholder="Name"
-        onChangeText={e => setUser({...user, name: e})}
+        onChangeText={(e: String) => setUser({...user, name: e})}
         value={user.name}
       />
       <Input

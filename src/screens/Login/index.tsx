@@ -5,12 +5,11 @@ import Input from '../../components/Input';
 import SocialMediaButton from '../../components/SocialMediaButton';
 import styles from './styles';
 import {rootStore} from '../../mst';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useNavigation} from '@react-navigation/native';
 
-const Login = ({navigation}) => {
+const Login = () => {
+  const navigation = useNavigation();
   const rootData = rootStore();
   const [user, setUser] = useState({
     email: 'abhishek@gmail.com',
@@ -63,7 +62,6 @@ const Login = ({navigation}) => {
         value={user.password}
       />
       <Button title="Login" onPress={onSubmit} />
-      <Text style={styles.forgotText}>Forgot Password?</Text>
       <SocialMediaButton
         iconName="facebook"
         color="#4867aa"

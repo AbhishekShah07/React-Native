@@ -8,6 +8,9 @@ interface Props {
   placeholder: String;
   onChangeText: Function;
   value: String;
+  keyboardType?: String;
+  autoCapitalize?: String;
+  secureTextEntry?: Boolean;
 }
 
 const Input = (props: Props) => {

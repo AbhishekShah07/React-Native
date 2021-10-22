@@ -18,22 +18,27 @@ const RootStore = types
     user: UserStore,
     books: types.array(BookStore),
   })
-  .actions(store => ({
-    setUser(user) {
-      store.user = {...user};
-    },
-    async fetchUser(email, password) {
-      const userData = await fetchUserData(email, password);
-      store.setUser(userData);
-    },
-    setAllBooks(allBooks: any) {
-      store.books = [...allBooks];
-    },
-    async fetchBooks() {
-      const allBooks = await fetchAllBooks();
-      store.setAllBooks(allBooks);
-    },
-  }));
+  .actions(
+    (store: {
+      user: {id: String; email: String; name: String};
+      books: Array<{name: String; author: String; price: Number}>;
+    }) => ({
+      setUser(user: {id: String; email: String; name: String}) {
+        store.user = {...user};
+      },
+      async fetchUser(email: String, password: String) {
+        const userData = await fetchUserData(email, password);
+        store.setUser(userData);
+      },
+      setAllBooks(allBooks: any) {
+        store.books = [...allBooks];
+      },
+      async fetchBooks() {
+        const allBooks = await fetchAllBooks();
+        store.setAllBooks(allBooks);
+      },
+    }),
+  );
 let rootData;
 export const rootStore = () => {
   rootData = RootStore.create({

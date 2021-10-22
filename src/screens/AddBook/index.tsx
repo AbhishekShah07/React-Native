@@ -10,20 +10,20 @@ const AddBook = () => {
     <View style={styles.mainView}>
       <Input
         placeholder="Book Name"
-        onChangeText={(e: String) => setBook({...book, name: e})}
+        onChangeText={(e: string) => setBook({...book, name: e})}
         value={book.name}
       />
       <Input
         placeholder="Author Name"
-        onChangeText={(e: String) => setBook({...book, author: e})}
+        onChangeText={(e: string) => setBook({...book, author: e})}
         value={book.author}
       />
       <Input
         placeholder="Price"
-        onChangeText={(e: String) => setBook({...book, price: e})}
+        onChangeText={(e: string) => setBook({...book, price: e})}
         value={book.price}
       />
-      <Button title="Add" />
+      <Button onPress={() => console.log('add')} title="Add" />
     </View>
   );
 };

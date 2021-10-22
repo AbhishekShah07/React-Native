@@ -20,7 +20,6 @@ const Signup = () => {
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(async userData => {
         try {
-          console.log(userData);
           const userCreation = await firestore()
             .collection('users')
             .doc(userData.user.uid)
@@ -28,7 +27,6 @@ const Signup = () => {
               name: user.name,
               email: user.email,
             });
-          console.log(userCreation);
         } catch (userCreationError) {
           console.log(userCreationError);
         }

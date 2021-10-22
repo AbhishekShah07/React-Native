@@ -5,6 +5,7 @@ export const fetchAllBooks = async () => {
   const allBooks = await firestore().collection('books').get();
   return allBooks.docs.map(item => {
     return {
+      id: item.id,
       name: item.data().name,
       author: item.data().author,
       price: item.data().price,
@@ -19,6 +20,7 @@ export const fetchMyAllBooks = async () => {
     .get();
   return myBooks.docs.map(item => {
     return {
+      id: item.id,
       name: item.data().name,
       author: item.data().author,
       price: item.data().price,
@@ -56,5 +58,31 @@ export const createNewBook = async (
       author: authorName,
       price: parseInt(price),
       addedBy: 'abhishek@gmail.com',
+    });
+};
+
+export const deleteMyBook = async id => {
+  await firestore().collection('books').doc(id).delete();
+};
+
+export const fetchBook = async id => {
+  const book = await firestore().collection('books').doc(id).get();
+  return {
+    id: book.id,
+    name: book._data.name,
+    author: book._data.author,
+    price: book._data.price,
+  };
+};
+
+export const updateBook = async data => {
+  console.log(data);
+  await firestore()
+    .collection('books')
+    .doc(data.id)
+    .update({
+      author: data.author,
+      name: data.name,
+      price: parseInt(data.price),
     });
 };

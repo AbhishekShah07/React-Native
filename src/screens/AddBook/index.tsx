@@ -37,6 +37,7 @@ const AddBook = inject('rootTree')(
           onPress={() => {
             rootTree.addBook(book.name, book.author, book.price);
             rootTree.fetchBooks();
+            rootTree.fetchMyBooks();
             navigation.navigate('TS Project');
           }}
           title="Add"

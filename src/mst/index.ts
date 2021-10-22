@@ -4,12 +4,16 @@ import {
   fetchUserData,
   fetchMyAllBooks,
   createNewBook,
+  deleteMyBook,
+  fetchBook,
+  updateBook,
 } from '../utils';
 
 const BookStore = types.model('Book', {
   name: types.string,
   author: types.string,
   price: types.number,
+  id: types.string,
 });
 
 const UserStore = types.model('User', {
@@ -21,6 +25,7 @@ const UserStore = types.model('User', {
 const RootStore = types
   .model('Root', {
     user: UserStore,
+    book: BookStore,
     books: types.array(BookStore),
     myBooks: types.array(BookStore),
   })
@@ -46,7 +51,32 @@ const RootStore = types
     async function addBook(name, author, price) {
       await createNewBook(name, author, price);
     }
-    return {staticUserData, fetchUser, fetchBooks, fetchMyBooks, addBook};
+    async function deleteBook(id) {
+      await deleteMyBook(id);
+    }
+    async function fetchSingleBook(id) {
+      const bookData = await fetchBook(id);
+      applySnapshot(store, {
+        ...store,
+        book: {
+          ...bookData,
+        },
+      });
+      return bookData;
+    }
+    async function updateSingleBook(data) {
+      await updateBook(data);
+    }
+    return {
+      staticUserData,
+      fetchUser,
+      fetchBooks,
+      fetchMyBooks,
+      addBook,
+      deleteBook,
+      fetchSingleBook,
+      updateSingleBook,
+    };
   });
 
 export const rootStore = () => {
@@ -55,6 +85,12 @@ export const rootStore = () => {
       id: '',
       email: '',
       name: '',
+    },
+    book: {
+      name: '',
+      author: '',
+      price: 0,
+      id: '',
     },
     books: [],
     myBooks: [],
